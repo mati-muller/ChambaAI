@@ -35,10 +35,11 @@ services:
       - backend
     command: yarn dev --host
   ai-service:
-    image: ollama/ollama:latest
+    build: ./ai-service
     ports:
-      - '8000:11434'
-    volumes:
-      - ollama:/root/.ollama
+      - '8000:8000'
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    depends_on: []
 volumes:
   ollama:

@@ -1,0 +1,5 @@
+{
+  "prompt": "Genera un archivo Go llamado llamadas_handler.go que contenga un handler Gin para un endpoint GET \"/llamadas\" que devuelva todos los datos de la tabla llamadas de una base de datos PostgreSQL (campos: id, cliente_id, fecha, duracion, sentimiento, resumen). El handler debe estar en el package main y debe ser importado y registrado en el archivo main.go. Solo responde con el código de llamadas_handler.go entre ```go y ```.",
+  "model": "codellama:13b-code",
+  "filePath": "backend/llamadas_handler.go"
+}
