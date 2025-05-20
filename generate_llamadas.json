@@ -1,5 +1,5 @@
 {
   "prompt": "Solo responde con el código Go para un handler Gin que devuelva 'ok' en un endpoint GET /llamadas.",
   "model": "codellama:7b-code",
-  "filePath": "../backend/app/llamadas_handler.go"
+  "filePath": "backend/llamadas_handler.go"
 }
