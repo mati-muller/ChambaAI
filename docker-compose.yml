@@ -41,5 +41,7 @@ services:
     environment:
       - OLLAMA_HOST=http://host.docker.internal:11434
     depends_on: []
+    volumes:
+      - ./backend:/app/backend
 volumes:
   ollama:
