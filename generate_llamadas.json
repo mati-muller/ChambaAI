@@ -1,5 +1,5 @@
 {
-  "prompt": "Solo responde con el código Go para un handler Gin que devuelva 'ok' en un endpoint GET /llamadas.",
+  "prompt": "Analiza el código existente en el proyecto y genera solo el bloque de código Go necesario para agregar un nuevo endpoint Gin, usando la sintaxis r.GET o r.POST según corresponda, y el handler anónimo. El código generado debe seguir la estructura, convenciones y validaciones que ya existen en los archivos actuales, y debe integrarse como un bloque adicional, sin eliminar ni sobrescribir el código existente. No incluyas func main, comentarios ni instrucciones, solo el bloque de código listo para pegar en la función main o donde corresponda. Si es necesario, utiliza los mismos tipos, validaciones y patrones que ya están presentes en el proyecto.",
   "model": "codellama:7b-code",
   "filePath": "backend/llamadas_handler.go"
 }
