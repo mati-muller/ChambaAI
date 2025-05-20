@@ -105,6 +105,61 @@ r.POST("/save-code", func(c *gin.Context) {
 - Código fuente en `frontend/src/`
 - Puede consumir los endpoints generados dinámicamente
 
+## Instrucciones para la integración y uso de Ollama
+
+### 1. Instalación y configuración de Ollama
+
+1. Descarga e instala Ollama desde [https://ollama.com/](https://ollama.com/) según tu sistema operativo.
+2. Inicia el servicio Ollama localmente:
+   ```sh
+   ollama serve
+   ```
+   Por defecto, Ollama escucha en `http://localhost:11434`.
+
+3. Descarga el modelo necesario (por ejemplo, codellama:7b-code):
+   ```sh
+   ollama pull codellama:7b-code
+   ```
+
+### 2. Integración con Docker y ai-service
+
+- El servicio `ai-service` en Docker Compose está configurado para comunicarse con Ollama en `localhost:11434`.
+- Asegúrate de que Ollama esté corriendo antes de levantar los servicios con Docker Compose.
+- El volumen `./backend` debe estar montado en el contenedor de `ai-service` para que pueda escribir archivos generados.
+
+### 3. Flujo de generación automática
+
+1. Edita el archivo `generate_llamadas.json` para definir el prompt y el archivo de destino.
+2. Ejecuta la generación con:
+   ```sh
+   curl -X POST http://localhost:8000/api/generate \
+     -H 'Content-Type: application/json' \
+     -d @generate_llamadas.json
+   ```
+3. El código generado por Ollama será filtrado por `ai-service` y solo se guardará el bloque de código Go limpio en el archivo destino.
+4. El prompt está optimizado para que Ollama analice el código existente y genere solo bloques adicionales, sin sobrescribir el código previo ni incluir `func main`.
+
+### 4. Consejos para prompts efectivos
+
+- Especifica claramente en el prompt que NO debe incluir `func main`, comentarios ni instrucciones, solo el bloque de endpoint (por ejemplo, `r.GET` o `r.POST`).
+- Si necesitas que Ollama siga una estructura específica, incluye un ejemplo en el prompt.
+- Si el código generado no sigue la convención deseada, ajusta el prompt en `generate_llamadas.json`.
+
+### 5. Troubleshooting con Ollama
+
+- Si ai-service no puede conectarse a Ollama, asegúrate de que Ollama esté corriendo y accesible en `localhost:11434`.
+- Si el código generado contiene metadatos o no es limpio, revisa la lógica de filtrado en `ai-service/server.js` y el prompt utilizado.
+- Puedes probar la API de Ollama directamente con:
+   ```sh
+   curl http://localhost:11434/api/tags
+   ```
+   para ver los modelos disponibles.
+
+### 6. Personalización
+
+- Puedes cambiar el modelo usado modificando el campo `model` en `generate_llamadas.json`.
+- Puedes adaptar el flujo para otros lenguajes/componentes ajustando el prompt y el filtrado en `ai-service/server.js`.
+
 ## Notas y Consejos
 - El prompt en `generate_llamadas.json` está optimizado para que Ollama genere solo bloques de código listos para pegar, sin sobrescribir el código existente.
 - Si cambias la estructura de los handlers, ajusta el prompt para mantener coherencia.
